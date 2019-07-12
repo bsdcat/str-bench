@@ -12,4 +12,8 @@ medical professional, and put this together purely to make it easier
 to calculate these values should the reader want to see them without
 doing any math.
 
+A dummy data file describing the benchmarks is included; of course
+you can fill it in with the values from the blog post or your own
+preferred values as appropriate.
+
 This project uses the Apache license, as is Google's default.

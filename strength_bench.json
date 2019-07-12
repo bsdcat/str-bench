@@ -1,0 +1,56 @@
+{
+    "1" : {
+        "male" : {
+            "deadlift" : {
+                "type" : "mult",
+                "value" : 1.0
+            },
+            "squat" : {
+                "type" : "mult",
+                "value" : 1.0
+            },
+            "bench" : {
+                "type" : "mult",
+                "value" : 1.0
+            },
+            "row" : {
+                "type" : "mult",
+                "value" : 1.0
+            },
+            "pullup" : {
+                "type" : "raw",
+                "value" : 5
+            },
+            "press" : {
+                "type" : "mult",
+                "value" : 1.0
+            }
+        },
+        "female" : {
+            "deadlift" : {
+                "type" : "mult",
+                "value" : 1.0
+            },
+            "squat" : {
+                "type" : "mult",
+                "value" : 1.0
+            },
+            "bench" : {
+                "type" : "mult",
+                "value" : 1.0
+            },
+            "row" : {
+                "type" : "mult",
+                "value" : 1.0
+            },
+            "pullup" : {
+                "type" : "raw",
+                "value" : 5
+            },
+            "press" : {
+                "type" : "mult",
+                "value" : 1.0
+            }
+        }
+    }
+}
