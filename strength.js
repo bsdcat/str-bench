@@ -28,10 +28,56 @@ function load_benchmarks()
     if (xhr.readyState==4 && xhr.status==200) {
       multipliers = JSON.parse(xhr.responseText);
       benchmarks_loaded = true;
+      set_levels();
       calculate();
     }
   }
   xhr.send();
+}
+
+function set_levels()
+{
+  if (!benchmarks_loaded) {
+    return;
+  }
+  var select = document.getElementById("level_input");
+  select.options.length = 0;
+  for (var level in multipliers) {
+    var option = document.createElement("option");
+    option.innerHTML = level;
+    option.value = level;
+    select.add(option);
+  }
+  set_genders();
+}
+
+function set_genders()
+{
+  if (!benchmarks_loaded) {
+    return;
+  }
+  var select = document.getElementById("gender_input");
+  select.options.length = 0;
+  for (var gender in multipliers[get_level()]) {
+    var option = document.createElement("option");
+    option.innerHTML = gender.charAt(0).toUpperCase() + gender.slice(1);
+    option.value = gender;
+    select.add(option);
+  }
+}
+
+function get_level()
+{
+  var level_select = document.getElementById("level_input");
+  var level = level_select.options[level_select.selectedIndex].value;
+  return level;
+}
+
+function get_gender()
+{
+  var gender_select = document.getElementById("gender_input");
+  var gender = gender_select.options[gender_select.selectedIndex].value;
+  return gender;
 }
 
 function calculate()
@@ -40,10 +86,8 @@ function calculate()
   if (isNaN(weight) || benchmarks_loaded == false) {
     return;
   }
-  var level_select = document.getElementById("level_input");
-  var level = level_select.options[level_select.selectedIndex].value;
-  var gender_select = document.getElementById("gender_input");
-  var gender = gender_select.options[gender_select.selectedIndex].value;
+  level = get_level();
+  gender = get_gender();
 
   for (let [exercise, calc] of Object.entries(multipliers[level][gender])) {
     if (calc["type"] == "raw") {
