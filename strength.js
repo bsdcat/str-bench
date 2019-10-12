@@ -16,11 +16,16 @@
 
 var sports;
 var multipliers;
-var sports_loaded = true;
+var sports_loaded = false;
 var benchmarks_loaded = false;
 
 function load_sports()
 {
+  var select = document.getElementById("sport_input");
+  if (!select) {
+    sports_loaded = true;
+    return;
+  }
   var xhr = new XMLHttpRequest();
   var url = "sports.json";
   xhr.open("GET", url, true);
@@ -71,6 +76,7 @@ function set_sports()
     option.value = sports[sport]["benchmark"];
     select.add(option);
   }
+  set_genders();
 }
 
 function set_levels()
@@ -79,12 +85,14 @@ function set_levels()
     return;
   }
   var select = document.getElementById("level_input");
-  select.options.length = 0;
-  for (var level in multipliers) {
-    var option = document.createElement("option");
-    option.innerHTML = level;
-    option.value = level;
-    select.add(option);
+  if (select) {
+    select.options.length = 0;
+    for (var level in multipliers) {
+      var option = document.createElement("option");
+      option.innerHTML = level;
+      option.value = level;
+      select.add(option);
+    }
   }
   set_genders();
 }
@@ -116,6 +124,9 @@ function get_level()
     return level;
   }
   var level_select = document.getElementById("level_input");
+  if (!level_select) {
+    return 0;
+  }
   var level = level_select.options[level_select.selectedIndex].value;
   return level;
 }
@@ -148,3 +159,4 @@ function calculate()
 }
 
 document.addEventListener("DOMContentLoaded", load_benchmarks);
+document.addEventListener("DOMContentLoaded", load_sports);
