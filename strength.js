@@ -14,8 +14,28 @@
  *  limitations under the License.
  */
 
+var sports;
 var multipliers;
+var sports_loaded = true;
 var benchmarks_loaded = false;
+
+function load_sports()
+{
+  var xhr = new XMLHttpRequest();
+  var url = "sports.json";
+  xhr.open("GET", url, true);
+
+  xhr.onreadystatechange = function ()
+  {
+    if (xhr.readyState == 4 && xhr.status == 200) {
+      sports = JSON.parse(xhr.responseText);
+      sports_loaded = true;
+      set_sports();
+      calculate();
+    }
+  }
+  xhr.send();
+}
 
 function load_benchmarks()
 {
@@ -33,6 +53,24 @@ function load_benchmarks()
     }
   }
   xhr.send();
+}
+
+function set_sports()
+{
+  if (!sports_loaded) {
+    return;
+  }
+  var select = document.getElementById("sport_input");
+  if (!select) {
+      return;
+  }
+  select.options.length = 0;
+  for (var sport in sports) {
+    var option = document.createElement("option");
+    option.innerHTML = sports[sport]["name"];
+    option.value = sports[sport]["benchmark"];
+    select.add(option);
+  }
 }
 
 function set_levels()
@@ -57,6 +95,7 @@ function set_genders()
     return;
   }
   var select = document.getElementById("gender_input");
+  var previousIndex = select.selectedIndex;
   select.options.length = 0;
   for (var gender in multipliers[get_level()]) {
     var option = document.createElement("option");
@@ -64,10 +103,18 @@ function set_genders()
     option.value = gender;
     select.add(option);
   }
+  if (previousIndex >= 0) {
+    select.selectedIndex = previousIndex;
+  }
 }
 
 function get_level()
 {
+  var sport_select = document.getElementById("sport_input");
+  if (sport_select) {
+    var level = sport_select.options[sport_select.selectedIndex].value;
+    return level;
+  }
   var level_select = document.getElementById("level_input");
   var level = level_select.options[level_select.selectedIndex].value;
   return level;
@@ -83,7 +130,7 @@ function get_gender()
 function calculate()
 {
   var weight = parseInt(document.getElementById("weight_input").value);
-  if (isNaN(weight) || benchmarks_loaded == false) {
+  if (isNaN(weight) || benchmarks_loaded == false || sports_loaded == false) {
     return;
   }
   level = get_level();
