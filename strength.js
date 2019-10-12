@@ -36,7 +36,6 @@ function load_sports()
       sports = JSON.parse(xhr.responseText);
       sports_loaded = true;
       set_sports();
-      calculate();
     }
   }
   xhr.send();
@@ -54,7 +53,6 @@ function load_benchmarks()
       multipliers = JSON.parse(xhr.responseText);
       benchmarks_loaded = true;
       set_levels();
-      calculate();
     }
   }
   xhr.send();
@@ -114,6 +112,7 @@ function set_genders()
   if (previousIndex >= 0) {
     select.selectedIndex = previousIndex;
   }
+  calculate();
 }
 
 function get_level()
