@@ -95,6 +95,15 @@ function set_levels()
   set_genders();
 }
 
+function update_label()
+{
+  var level = "" + get_level();
+  var level_name = document.getElementById("level_name");
+  if (level_name) {
+    level_name.innerHTML = multipliers[level]["level_name"];
+  }
+}
+
 function set_genders()
 {
   if (!benchmarks_loaded) {
@@ -104,6 +113,9 @@ function set_genders()
   var previousIndex = select.selectedIndex;
   select.options.length = 0;
   for (var gender in multipliers[get_level()]) {
+    if (gender == "level_name") {
+      continue;
+    }
     var option = document.createElement("option");
     option.innerHTML = gender.charAt(0).toUpperCase() + gender.slice(1);
     option.value = gender;
@@ -155,6 +167,7 @@ function calculate()
       document.getElementById(exercise).innerHTML = rounded_weight;
     }
   }
+  update_label();
 }
 
 document.addEventListener("DOMContentLoaded", load_benchmarks);

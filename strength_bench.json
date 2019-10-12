@@ -1,5 +1,6 @@
 {
     "1" : {
+        "level_name" : "General",
         "male" : {
             "deadlift" : {
                 "type" : "mult",
